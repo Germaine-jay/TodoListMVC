@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@using TodoList.DAL.Enums
+@model TodoList.BLL.Models.AddOrUpdateTaskVM;
+
+
+<h2>New Task</h2>
+
+
+<form class="col-7" asp-controller="TodoList" asp-action="Save">
+
+    @if (@ViewBag.ErrMsg != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> @ViewBag.ErrMsg
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <div class="alert-danger" asp-validation-summary="@ValidationSummary.All"></div>
+
+
+    <div class="mb-3">
+        <label asp-for="@Model.UserId" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.UserId">
+        <span asp-validation-for="UserId"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="@Model.TaskId" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.TaskId">
+        <span asp-validation-for="TaskId"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="@Model.Title" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.Title">
+        <span asp-validation-for="Title" class="alert-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.Description" class="form-label"></label>
+        <textarea class="form-control" asp-for="@Model.Description"></textarea>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label asp-for="@Model.Priority" class="form-label"></label>
+        <select class="form-select" aria-label="Default select example" asp-for="@Model.Priority" asp-items="Html.GetEnumSelectList <Priority>()">
+            <option selected="" value="">Pick a Priority</option>
+
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.DueDate" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.DueDate">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts
+    {
+    @{
+        Html.RenderPartial("_ValidationScriptsPartial");
+    }
+    ;
+}
+
+
+

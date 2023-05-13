@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@model TodoList.BLL.Models.UserVM;
+
+<h2>Update User</h2>
+
+
+<form class="col-7" asp-controller="TodoList" asp-action="SaveUpdate">
+
+    @if (@ViewBag.ErrMsg != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> @ViewBag.ErrMsg
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <div class="alert-danger" asp-validation-summary="@ValidationSummary.All"></div>
+
+    <input type="hidden" asp-for="UserId"/>
+
+    <div class="mb-3">
+       
+        <label asp-for="@Model.FullName" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.FullName">
+        <span asp-validation-for="FullName"></span>
+    </div>
+
+
+    <div class="mb-3">
+        
+        <label asp-for="@Model.Email" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.Email">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+
+    <div class="mb-3">
+        
+        <label asp-for="@Model.Password" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.Password">
+        <span asp-validation-for="Password" class="alert-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+@section Scripts
+    {
+    @{
+        Html.RenderPartial("_ValidationScriptsPartial");
+    }
+    ;
+}

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TodoList.BLL.Models.UserWithTaskVM>
+
+@if (@TempData["SuccessMsg"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> @TempData["SuccessMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+@if (@TempData["ErrMsg"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> @TempData["ErrMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@foreach (var item in Model.Select((value, i) => new { value, i }))
+{
+    <h4>@(item.i + 1). @item.value.Fullname's Tasks</h4>
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Description</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Due date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                foreach (var task in item.value.Tasks.Select((value, i) => new { value, i }))
+                {
+                    <tr>
+                        <th scope="row">@(task.i + 1)</th>
+                        <td>@task.value.Title</td>
+                        <td>@task.value.Description</td>
+                        <td>@task.value.Priority</td>
+                        <td>@task.value.DueDate</td>
+                        <td>@task.value.Status</td>
+
+                   
+                        <form method="post" action="@Url.Action("SaveUpdateStatus", "TodoList", new { userId = @item.value.Id, taskId = @task.value.Id})">
+                            @Html.AntiForgeryToken()
+                            <input type="submit" class="btn btn-primary" value="Update" />
+                        </form>
+         
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+}
+
+
+
+
+
+
