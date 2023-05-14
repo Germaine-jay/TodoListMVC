@@ -88,5 +88,27 @@ namespace TodoListMVC.Controllers
 
         }
 
+
+        [HttpPut]
+        public async Task<IActionResult> SaveUpdate(UserVM model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var (successful, msg) = await _userService.Update(model);
+
+                if (successful)
+                {
+                    TempData["SuccessMsg"] = msg;
+                    return RedirectToAction("AllUsers");
+                }
+
+                TempData["ErrMsg"] = msg;
+                return View("AllUsers");
+
+            }
+            return View("AllUsers");
+        }
+
     }
 }

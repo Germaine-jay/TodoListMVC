@@ -39,9 +39,7 @@ namespace TodoList.BLL.Implementations
             }
 
             var userupdate = _mapper.Map(model,user);
-
             var rowChanges = await _userRepo.UpdateAsync(userupdate);
-            //await _unitOfWork.SaveChangesAsync();
 
             return rowChanges != null ?(true, $"User detail update was successful!") : (false, "Failed To save changes!");
 
@@ -75,9 +73,11 @@ namespace TodoList.BLL.Implementations
 
             return (await _userRepo.GetAllAsync(include: u => u.Include(t => t.TodoList))).Select(u => new UserWithTaskVM
             {
+                Id = u.Id,
                 Fullname = u.FullName,
                 Tasks = u.TodoList.Select(t => new TaskVM
                 {
+                    Id = t.Id,
                     Title = t.Title,
                     Description = t.Description,
                     DueDate = t.DueDate.ToString("d"),
@@ -85,9 +85,11 @@ namespace TodoList.BLL.Implementations
                     Status = t.IsDone ? "Done" : "Not Done"
                 })
             });
+            
         }
 
-        public async Task<(bool successful, string msg)> DeleteAsync(int userId)
+
+            public async Task<(bool successful, string msg)> DeleteAsync(int userId)
         {
             var user = await _userRepo.GetSingleByAsync(u => u.Id == userId);
 
@@ -99,6 +101,7 @@ namespace TodoList.BLL.Implementations
             await _userRepo.DeleteAsync(user);
             return await _unitOfWork.SaveChangesAsync() >= 0 ? (true, $"{user.FullName} was deleted") : (false, $"Delete Failed");
         }
+
 
         public async Task<(bool successful, string msg)> AddOrUpdateAsync(DeleteUserVM model)
         {

@@ -8,8 +8,6 @@ using TodoList.DAL.Entities;
 
 namespace TodoListMVC.Controllers
 {
-
-    // [Route("[controller]/[action]/{id?}")]
     [AutoValidateAntiforgeryToken]
     public class TodoListController : Controller
     {
@@ -40,8 +38,8 @@ namespace TodoListMVC.Controllers
 
         public async Task<IActionResult> UpdateStatus(int userId, int taskId)
         {
-            //var user = await _userService.GetUser(userId);
-            return View(new AddOrUpdateTaskVM { UserId = userId, TaskId = taskId });
+            var user = await _todoService.GetTask(userId, taskId);
+            return View(user);
 
         }
 
@@ -77,47 +75,30 @@ namespace TodoListMVC.Controllers
             return View("New");
         }
 
-        [HttpPut]
-        public async Task<IActionResult> SaveUpdate (UserVM model)
-        {           
 
+
+        [HttpPost("{userid}/{taskId}")]
+        public async Task<IActionResult> DeleteTask(int userId, int taskId)
+        {
             if (ModelState.IsValid)
-            {   
-                var (successful, msg) = await _userService.Update(model);
-                
-                if (successful)
+            {
+                var (success, msg) = await _todoService.DeleteTaskAsync(userId, taskId);
+
+                if (success)
                 {
                     TempData["SuccessMsg"] = msg;
-                    return RedirectToAction("AllUsers");
+                    return RedirectToAction("Index");
                 }
 
                 TempData["ErrMsg"] = msg;
-                return View("AllUsers");
-
+                return RedirectToAction("Index");
             }
-            return View("AllUsers");
+            return View("Index");
         }
 
 
 
-        /*[HttpGet("{userid}/{taskId}")]
-        public async Task<IActionResult> Delete(int userId, int taskId)
-        {
-            var (success, msg) = await _todoService.DeleteAsync(userId, taskId);
-
-            if (success)
-            {
-                TempData["SuccessMsg"] = msg;
-                return RedirectToAction("Index");
-            }
-
-            TempData["ErrMsg"] = msg;
-            return RedirectToAction("Index");
-        }*/
-
-
-
-        [HttpPut("{userId}/{taskId}")]
+        [HttpGet("{userId}/{taskId}")]
         public async Task<IActionResult> SaveUpdateStatus(int userId, int taskId)
         {
 
@@ -128,7 +109,7 @@ namespace TodoListMVC.Controllers
                 if (successful)
                 {
                     TempData["SuccessMsg"] = msg;
-                    return RedirectToAction("Index", new { userId });
+                    return RedirectToAction("Index");
                 }
 
                 TempData["ErrMsg"] = msg;
