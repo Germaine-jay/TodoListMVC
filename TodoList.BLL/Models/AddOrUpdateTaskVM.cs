@@ -10,8 +10,8 @@ namespace TodoList.BLL.Models
 {
     public class AddOrUpdateTaskVM
     {
-        public int UserId { get; set; }
-        public int TaskId { get; set; }
+        public int? UserId { get; set; }
+        public int? TaskId { get; set; }
 
         [Required, StringLength(50, ErrorMessage = "character limit of 3 and 50 is exceeded", MinimumLength = 3)]
         public string Title { get; set; }

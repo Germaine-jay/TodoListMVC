@@ -29,26 +29,18 @@ namespace TodoListMVC.Controllers
         }
 
 
-        public IActionResult New()
+        public async Task<IActionResult> New()
         {
+            /*var model = await _todoService.GetTask(userId, taskId);*/
             return View(new AddOrUpdateTaskVM());
         }
 
 
-
-        public async Task<IActionResult> UpdateStatus(int userId, int taskId)
-        {
-            var user = await _todoService.GetTask(userId, taskId);
-            return View(user);
-
-        }
-
         public IActionResult DeleteAUser(int userId)
         {
-            return View(new DeleteUserVM { Id = userId });
+            return View(new CreateUserVM { Id = userId });
 
         }
-
 
 
         [HttpPost]
@@ -63,7 +55,6 @@ namespace TodoListMVC.Controllers
                 {
 
                     TempData["SuccessMsg"] = msg;
-
                     return RedirectToAction("Index");
                 }
 

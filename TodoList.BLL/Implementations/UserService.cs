@@ -21,7 +21,7 @@ namespace TodoList.BLL.Implementations
         }
 
 
-        public async Task<(bool successful, string msg)> Create(DeleteUserVM model)
+        public async Task<(bool successful, string msg)> Create(CreateUserVM model)
         {
             var user = _mapper.Map<User>(model);
             var rowChanges = await _userRepo.AddAsync(user);
@@ -32,10 +32,10 @@ namespace TodoList.BLL.Implementations
         public async Task<(bool successful, string msg)> Update(UserVM model)
         {
 
-            var user = await _userRepo.GetSingleByAsync(u => u.Id == model.UserId);
+            var user = await _userRepo.GetSingleByAsync(u => u.Id == model.Id);
             if (user == null)
             {
-                return (false, $"User with ID:{model.UserId} wasn't found");
+                return (false, $"User with ID:{model. Id}wasn't found");
             }
 
             var userupdate = _mapper.Map(model,user);
@@ -46,10 +46,10 @@ namespace TodoList.BLL.Implementations
         }
 
 
-        public async Task<IEnumerable<DeleteUserVM>> GetUsers()
+        public async Task<IEnumerable<CreateUserVM>> GetUsers()
         {
             var users = await _userRepo.GetAllAsync();
-            var userViewModels = users.Select(u => new DeleteUserVM
+            var userViewModels = users.Select(u => new CreateUserVM
             {
                 FullName = u.FullName,
                 Email = u.Email,
@@ -59,11 +59,10 @@ namespace TodoList.BLL.Implementations
             return userViewModels;
         }
 
-        public async Task<DeleteUserVM> GetUser(int userId)
+        public async Task<CreateUserVM> GetUser(int userId)
         {
             var user = await _userRepo.GetSingleByAsync(u => u.Id == userId);
-            var Auser = _mapper.Map<DeleteUserVM>(user);
-
+            var Auser = _mapper.Map<CreateUserVM>(user);
             return Auser;
         }
 
@@ -103,7 +102,7 @@ namespace TodoList.BLL.Implementations
         }
 
 
-        public async Task<(bool successful, string msg)> AddOrUpdateAsync(DeleteUserVM model)
+        public async Task<(bool successful, string msg)> AddOrUpdateAsync(CreateUserVM model)
         {
 
             User user = await _userRepo.GetSingleByAsync(u => u.Id == model.Id);

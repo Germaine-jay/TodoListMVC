@@ -10,8 +10,8 @@ namespace TodoList.BLL.MappingProfiles
     {
         public UsersMappingProfile()
         {      
-            CreateMap<DeleteUserVM, User>();
-            CreateMap<User, DeleteUserVM>();
+            CreateMap<CreateUserVM, User>();
+            CreateMap<User, CreateUserVM>();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace TodoList.BLL.Models
 {
     public class TaskVM
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Priority { get; set; }

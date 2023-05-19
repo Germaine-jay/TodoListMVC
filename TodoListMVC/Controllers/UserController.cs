@@ -7,12 +7,10 @@ namespace TodoListMVC.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly ITodoListService _todoService;
 
-        public UserController(IUserService userService, ITodoListService _todoService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            this._todoService = _todoService;
         }
 
         public async Task<IActionResult> NewUser(int userId)
@@ -21,11 +19,6 @@ namespace TodoListMVC.Controllers
             return View(user);
         }
 
-
-        /*public IActionResult New()
-        {
-            return View(new DeleteUserVM());
-        }*/
 
         public async Task<IActionResult> UpdateUser(int userId)
         {
@@ -41,7 +34,7 @@ namespace TodoListMVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SaveUser(DeleteUserVM model)
+        public async Task<IActionResult> SaveUser(CreateUserVM model)
         {
 
             if (ModelState.IsValid)
@@ -55,15 +48,11 @@ namespace TodoListMVC.Controllers
                     return RedirectToAction("AllUsers");
                 }
 
-                // TempData["ErrMsg"] = msg; for both views and redirect to actions
-
                 TempData["ErrMsg"] = msg;
-
                 return View("NewUser");
             }
 
             return View("NewUser");
-
         }
 
 

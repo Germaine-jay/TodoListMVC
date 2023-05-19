@@ -1,5 +1,8 @@
-﻿
-@model IEnumerable<TodoList.BLL.Models.DeleteUserVM>
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@model IEnumerable<TodoList.BLL.Models.CreateUserVM>
 
 
 @if (@TempData["SuccessMsg"] != null)

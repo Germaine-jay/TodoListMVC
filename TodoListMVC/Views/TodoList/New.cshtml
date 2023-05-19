@@ -20,19 +20,17 @@
     }
 
 
-    <div class="alert-danger" asp-validation-summary="@ValidationSummary.All"></div>
+    <div class="alert-danger" asp-validation-summary="@ValidationSummary.None"></div>
 
 
     <div class="mb-3">
-        <label asp-for="@Model.UserId" class="form-label"></label>
-        <input class="form-control" asp-for="@Model.UserId">
+        <input type="hidden" class="form-control" asp-for="@Model.UserId">
         <span asp-validation-for="UserId"></span>
     </div>
 
 
     <div class="mb-3">
-        <label asp-for="@Model.TaskId" class="form-label"></label>
-        <input class="form-control" asp-for="@Model.TaskId">
+        <input type="hidden" class="form-control" asp-for="@Model.TaskId">
         <span asp-validation-for="TaskId"></span>
     </div>
 

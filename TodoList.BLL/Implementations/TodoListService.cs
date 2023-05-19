@@ -70,24 +70,21 @@ namespace TodoList.BLL.Implementations
         }
 
 
-        public async Task<(Todo to, string msg)> GetTask(int userId, int taskId)
+        public async Task<TaskVM> GetTask(int userId, int taskId)
         {
-            //var user = ToDoListDbContext.GetUsersWithToDos().SingleOrDefault(u => u.Id == userId);
 
             var user = await _userRepo.GetSingleByAsync(u => u.Id == userId, include: u => u.Include(x => x.TodoList), tracking: true);
-            if (user == null)
+            if (string.IsNullOrEmpty(user.ToString()))
             {
-                return (null, "User not found");
+                var task = user?.TodoList?.SingleOrDefault(u => u.Id == taskId);
+                if (string.IsNullOrEmpty(task.ToString()))
+                {              
+                    var userTask = _mapper.Map<TaskVM>(task);
+                    return userTask;
+                }
             }
-            var task = user?.TodoList?.SingleOrDefault(u => u.Id == taskId);
-
-            if (task == null)
-            {
-                return (null, "task not found");
-            }
-            return (task, "");
+                return null;
         }
-
 
         public async Task<(bool successful, string msg)> ToggleTaskStatus(int userId, int taskId)
         {
