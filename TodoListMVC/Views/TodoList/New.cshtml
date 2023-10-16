@@ -13,7 +13,7 @@
 
     @if (@ViewBag.ErrMsg != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show w-75" role="alert">
             <strong>Error!</strong> @ViewBag.ErrMsg
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -24,15 +24,13 @@
 
 
     <div class="mb-3">
-        <label asp-for="@Model.UserId" class="form-label"></label>
-        <input class="form-control" asp-for="@Model.UserId">
+        <input type="hidden" class="form-control" asp-for="UserId">
         <span asp-validation-for="UserId"></span>
     </div>
 
 
     <div class="mb-3">
-        <label asp-for="@Model.TaskId" class="form-label"></label>
-        <input class="form-control" asp-for="@Model.TaskId">
+        <input type="hidden" class="form-control" asp-for="@Model.TaskId">
         <span asp-validation-for="TaskId"></span>
     </div>
 
@@ -72,7 +70,6 @@
     @{
         Html.RenderPartial("_ValidationScriptsPartial");
     }
-    ;
 }
 
 

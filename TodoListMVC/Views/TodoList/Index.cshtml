@@ -2,7 +2,7 @@
 
 @if (@TempData["SuccessMsg"] != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show w-75" role="alert">
         <strong>Success!</strong> @TempData["SuccessMsg"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -11,7 +11,7 @@
 
 @if (@TempData["ErrMsg"] != null)
 {
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show w-75" role="alert">
         <strong>Error!</strong> @TempData["ErrMsg"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -22,6 +22,11 @@
 {
     <h4>@(item.i + 1). @item.value.Fullname's Tasks</h4>
     <h4>@item.value.Id</h4>
+    <span class="px-1">
+        <form action="@Url.Action("New", "TodoList", new { userId = @item.value.Id})" method="Get">
+            <input type="submit" class="btn btn-success" name="_method" value="Add" placeholder="@item.value.Fullname" />
+        </form>
+    </span>
     <table class="table table-striped">
 
         <thead>
@@ -40,34 +45,30 @@
                 foreach (var task in item.value.Tasks.Select((value, i) => new { value, i }))
                 {
                     <tr>
-                        <th scope="row">@(task.i + 1)</th>
-                        <td> @task.value.Id</td>
+                        
                         <td>@task.value.Title</td>
                         <td>@task.value.Description</td>
                         <td>@task.value.Priority</td>
                         <td>@task.value.DueDate</td>
                         <td>@task.value.Status</td>
-
                         <td>
-                            <form action="@Url.Action("SaveUpdateStatus", "TodoList", new { userId = @item.value.Id, taskId = @task.value.Id})" method="Get">
-                            
-                            <input type="submit" class="btn btn-warning" name = "_method" value="Update" placeholder="@task.value.Status"/>
-                            </form>
+                            <div class="d-lg-flex">
+                                <span class="px-1">                                 
+                                        <form action="@Url.Action("SaveUpdateStatus", "TodoList", new { userId = @item.value.Id, taskId = @task.value.Id, _method = "Get" })">
+                                        <input type="submit" class="btn btn-warning btn-rounded" value="Update"/>
+                                        </form>                          
+                                </span>
 
-                        </td>
-                        <td>
-                            <form action="@Url.Action("DeleteTask", "TodoList", new { Id = @item.value.Id, taskId = @task.value.Id})" method="post">
-                            
-                            <input type="submit" class="btn btn-danger" value="Delete" placeholder="@task.value.Status"/>
-                            </form>
-
-                        </td>
-
-         
+                             <span class="px-1">
+                                <button type="button" class="btn btn-danger btn-rounded">
+                                        <input href="@Url.Action("DeleteTask", "TodoList", new { userId = @item.value.Id, taskId = @task.value.Id})" value="Delete">
+                                </button>
+                            </span>
+                            </div>
+                        </td>      
                     </tr>
                 }
             }
-
         </tbody>
     </table>
 

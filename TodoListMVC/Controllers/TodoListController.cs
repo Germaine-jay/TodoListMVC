@@ -8,6 +8,7 @@ using TodoList.DAL.Entities;
 
 namespace TodoListMVC.Controllers
 {
+    [Route("[controller]/[action]/{userid?}")]
     [AutoValidateAntiforgeryToken]
     public class TodoListController : Controller
     {
@@ -29,9 +30,10 @@ namespace TodoListMVC.Controllers
         }
 
 
-        public IActionResult New()
+        public async Task<IActionResult> New(int userId)
         {
-            return View(new AddOrUpdateTaskVM());
+            var model = await _userService.GetUser(userId);
+            return View(new AddOrUpdateTaskVM { UserId = userId});
         }
 
 
@@ -63,7 +65,6 @@ namespace TodoListMVC.Controllers
                 {
 
                     TempData["SuccessMsg"] = msg;
-
                     return RedirectToAction("Index");
                 }
 
@@ -77,7 +78,7 @@ namespace TodoListMVC.Controllers
 
 
 
-        [HttpPost("{userid}/{taskId}")]
+        [HttpPost("{taskId}")]
         public async Task<IActionResult> DeleteTask(int userId, int taskId)
         {
             if (ModelState.IsValid)
@@ -98,7 +99,7 @@ namespace TodoListMVC.Controllers
 
 
 
-        [HttpGet("{userId}/{taskId}")]
+        [HttpGet("{taskId}")]
         public async Task<IActionResult> SaveUpdateStatus(int userId, int taskId)
         {
 

@@ -36,7 +36,7 @@
                         <input type="submit" class="btn btn-danger" value="Delete" />
                     </form>
 
-                    <form method="post" action="@Url.Action("NewUser", "User", new { userId = @item.value.Id })">
+                    <form method="post" action="@Url.Action("UpdateUser", "User", new { userId = @item.value.Id })">
                         @Html.AntiForgeryToken()
                         <input type="submit" class="btn btn-primary" value="Update" />
                     </form>

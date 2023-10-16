@@ -4,6 +4,7 @@ using TodoList.BLL.Models;
 
 namespace TodoListMVC.Controllers
 {
+    [Route("[controller]/[action]/{id?}")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -29,7 +30,7 @@ namespace TodoListMVC.Controllers
 
         public async Task<IActionResult> UpdateUser(int userId)
         {
-            var user = await _userService.GetUser(userId);
+            var user = await _userService.GetAUser(userId);
             return View(user);
         }
 
@@ -56,7 +57,6 @@ namespace TodoListMVC.Controllers
                 }
 
                 // TempData["ErrMsg"] = msg; for both views and redirect to actions
-
                 TempData["ErrMsg"] = msg;
 
                 return View("NewUser");
@@ -89,7 +89,7 @@ namespace TodoListMVC.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> SaveUpdate(UserVM model)
         {
 

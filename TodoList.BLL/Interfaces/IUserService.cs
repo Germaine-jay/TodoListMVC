@@ -12,7 +12,7 @@ namespace TodoList.BLL.Interfaces
 
         Task<(bool successful, string msg)> DeleteAsync(int userId);
         Task<IEnumerable<DeleteUserVM>> GetUsers();
-        Task<DeleteUserVM> GetUser(int userId);
+        Task<UserVM> GetAUser(int userId);Task<DeleteUserVM> GetUser(int userId);
         Task<IEnumerable<UserWithTaskVM>> GetUsersWithTasksAsync();
         Task<(bool successful, string msg)> AddOrUpdateAsync(DeleteUserVM model);
     }
